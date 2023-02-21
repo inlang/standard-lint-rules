@@ -1,9 +1,12 @@
 {
-  "name": "inlang-plugin-x-select-a-name-x",
+  "name": "@inlang/standard-lint-rules",
   "type": "module",
   "module": "dist/index.js",
   "engines": {
     "node": "^18"
+  },
+  "exports": {
+    ".": "./dist/index.js"
   },
   "scripts": {
     "dev": "concurrently \"npm run dev:watch\" \"npm run dev:test\"",

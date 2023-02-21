@@ -10,7 +10,7 @@ import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfil
 
 await build({
   entryPoints: ["src/index.ts"],
-  outfile: "dist/index.js",
+  outdir: "dist",
   bundle: true,
   // minification is disabled in dev mode for better debugging
   minify: process.env.DEV ? false : true,
