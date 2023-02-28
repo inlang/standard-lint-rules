@@ -1,8 +1,11 @@
 import { context } from 'esbuild'
 import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
+import { glob } from 'glob'
+
+const entryPoints = await glob('src/*.ts', { ignore: '**/*.test.ts' })
 
 const ctx = await context({
-  entryPoints: ["src/index.ts"],
+  entryPoints,
   outdir: "dist",
   bundle: true,
   minify: !process.env.DEV,
