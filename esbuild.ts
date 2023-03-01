@@ -12,7 +12,6 @@ const ctx = await context({
   format: "esm",
   platform: "browser",
   target: "es2020",
-  external: ["@inlang/core"],
   plugins: [
     NodeModulesPolyfillPlugin(),
     {
