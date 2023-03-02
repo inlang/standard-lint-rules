@@ -1,8 +1,11 @@
 import { context } from 'esbuild'
 import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
 import { glob } from 'glob'
+import { rm } from 'fs/promises'
 
 const entryPoints = await glob('src/*.ts', { ignore: '**/*.test.ts' })
+
+await rm('dist', { recursive: true })
 
 const ctx = await context({
   entryPoints,

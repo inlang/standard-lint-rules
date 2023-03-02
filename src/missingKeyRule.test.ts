@@ -1,7 +1,7 @@
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { missingKeyRule } from './missingKeyRule.js'
 import { hasLintReports, getLintReports } from '@inlang/core/lint'
-import { lint, createResource, createMessage } from './test.utils.js'
+import { createMessage, createResource, lint } from '@inlang/core/lint/test-utilities'
 
 describe('missingKeyRule', () => {
 	describe('lint level', () => {
@@ -24,8 +24,7 @@ describe('missingKeyRule', () => {
 
 			expect(rule.visitors.Resource).toHaveBeenCalledOnce()
 			expect(rule.visitors.Message).not.toHaveBeenCalled()
-			// TODO: allow `hasLintReports` to be called with an array of resources
-			lintedResources?.forEach((resource) => expect(hasLintReports(resource)).toBe(false))
+			expect(hasLintReports(lintedResources!)).toBe(false)
 		})
 
 		test("should process all nodes of the target language", async () => {

@@ -1,7 +1,7 @@
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { brandingRule } from './brandingRule.js'
 import { getLintReports } from '@inlang/core/lint'
-import { lint, createResource, createMessage } from './test.utils.js'
+import { createMessage, createResource, lint } from '@inlang/core/lint/test-utilities'
 
 describe('brandingRule', () => {
 	const settings = { brand: 'my-brand', incorrect: ['myBrand'] }
