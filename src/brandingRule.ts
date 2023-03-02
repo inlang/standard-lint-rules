@@ -23,6 +23,10 @@ export const brandingRule = createLintRule<Settings>(
 		validateSettings(settings)
 		const { brand, incorrect } = settings
 
+		const regexps = Array.from( // remove duplicates
+			new Set([brand, ...incorrect].map((item) => item.toLowerCase())) // lowercase all words to be consistent
+		).map(item => new RegExp(item, 'ig')) // ignore casing of word
+
 		let context: Context
 
 		return {
@@ -33,8 +37,11 @@ export const brandingRule = createLintRule<Settings>(
 				Pattern: ({ target }) => {
 					if (!target) return
 
-					const incorrectlyBrandedWords = target.elements
-						.flatMap(element => incorrect.filter(word => element.value.includes(word)))
+					const incorrectlyBrandedWords = regexps
+						.flatMap(regex => target.elements.flatMap(element => element.value.match(regex))
+							.filter(Boolean) // filter out non-matching elements
+							.filter(item => item !== brand) // ignore brand if spelled correctly
+						)
 
 					for (const incorrectlyBrandedElement of incorrectlyBrandedWords) {
 						context.report({
