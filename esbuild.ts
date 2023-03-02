@@ -33,3 +33,6 @@ if (process.env.DEV) {
   console.info('✅ build complete')
   await ctx.dispose()
 }
+
+// TODO: should we wrap the build into a @inlang/core/utilities function to always have a consistent experience? e.g. log output, output folder, target, platform etc. Only entry points make sense to be defined individually. And maybe plugins.
+// TODO: use `tsup` to also generate `.d.ts` files

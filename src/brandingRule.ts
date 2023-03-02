@@ -1,13 +1,32 @@
-import { createRule, type Context } from '@inlang/core/lint'
+import { createLintRule, type Context } from '@inlang/core/lint'
 
-export const brandingRule = createRule<({ brandName: string, incorrectBrandingNames: string[] })>(
+type Settings = {
+	brand: string
+	incorrect: string[]
+}
+
+function validateSettings(settings: Settings | undefined): asserts settings is Settings {
+	if (!settings)
+		throw new Error('You need to pass settings to configure this rule')
+
+	if (!settings.brand)
+		throw new Error("'brand' is required")
+
+	if (!settings.incorrect?.length)
+		throw new Error("'incorrect' needs to contain at least a single item")
+}
+
+export const brandingRule = createLintRule<Settings>(
 	'inlang.brandingRule',
 	'error',
-	({ brandName, incorrectBrandingNames }) => {
+	(settings) => {
+		validateSettings(settings)
+		const { brand, incorrect } = settings
+
 		let context: Context
 
 		return {
-			initialize: (args) => {
+			setup: (args) => {
 				context = args.context
 			},
 			visitors: {
@@ -15,12 +34,12 @@ export const brandingRule = createRule<({ brandName: string, incorrectBrandingNa
 					if (!target) return
 
 					const incorrectlyBrandedWords = target.elements
-						.flatMap(element => incorrectBrandingNames.filter(word => element.value.includes(word)))
+						.flatMap(element => incorrect.filter(word => element.value.includes(word)))
 
 					for (const incorrectlyBrandedElement of incorrectlyBrandedWords) {
 						context.report({
 							node: target,
-							message: `Element '${incorrectlyBrandedElement}' is incorrectly branded and should be replaced with '${brandName}'`
+							message: `Element '${incorrectlyBrandedElement}' is incorrectly branded and should be replaced with '${brand}'`
 						})
 					}
 				}

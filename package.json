@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
-    "@inlang/core": "^0.4.0",
+    "@inlang/core": "^0.4.1",
     "concurrently": "^7.6.0",
     "esbuild": "^0.17.10",
     "glob": "^9.1.2",

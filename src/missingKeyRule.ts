@@ -1,6 +1,6 @@
-import { createRule, type Context } from '@inlang/core/lint'
+import { createLintRule, type Context } from '@inlang/core/lint'
 
-export const missingKeyRule = createRule(
+export const missingKeyRule = createLintRule(
 	'inlang.missingKey',
 	'error',
 	() => {
@@ -8,7 +8,7 @@ export const missingKeyRule = createRule(
 		let referenceLanguage: string
 
 		return {
-			initialize: (args) => {
+			setup: (args) => {
 				context = args.context
 				referenceLanguage = args.referenceLanguage
 			},
