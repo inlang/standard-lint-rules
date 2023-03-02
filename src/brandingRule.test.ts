@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from 'vitest'
 import { brandingRule } from './brandingRule.js'
 import { getLintReports } from '@inlang/core/lint'
-import { doLint, createResource, createMessage } from './test.utils.js'
+import { lint, createResource, createMessage } from './test.utils.js'
 
 describe('brandingRule', () => {
 	const settings = { brand: 'my-brand', incorrect: ['myBrand'] }
@@ -38,7 +38,7 @@ describe('brandingRule', () => {
 		test("should report incorrect names", async () => {
 			const rule = brandingRule(true, settings)
 
-			const lintedResources = await doLint(rule, [
+			const lintedResources = await lint(rule, [
 				createResource('en',
 					createMessage('test', 'This is a message about myBrand'),
 					createMessage('test2', 'it is called my-brand!'),
@@ -57,7 +57,7 @@ describe('brandingRule', () => {
 		test("should report case insensitive", async () => {
 			const rule = brandingRule(true, settings)
 
-			const lintedResources = await doLint(rule, [
+			const lintedResources = await lint(rule, [
 				createResource('en',
 					createMessage('test', 'myBRAND'),
 					createMessage('test2', 'MyBrand'),
@@ -72,7 +72,7 @@ describe('brandingRule', () => {
 		test("should report multiple times if written wrong in a single sentence", async () => {
 			const rule = brandingRule(true, settings)
 
-			const lintedResources = await doLint(rule, [
+			const lintedResources = await lint(rule, [
 				createResource('en',
 					createMessage('test', 'myBRAND mybrand test my-brand My-brand MYBRAND'),
 				),

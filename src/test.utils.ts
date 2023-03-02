@@ -1,4 +1,4 @@
-import { lint, LintRule } from '@inlang/core/lint'
+import { lint as lintImplementation, LintRule } from '@inlang/core/lint'
 import type { Config, EnvironmentFunctions } from '@inlang/core/config'
 import type { Message, Resource } from '@inlang/core/ast';
 import { vi } from 'vitest';
@@ -28,7 +28,12 @@ const attachSpiesToVisitor = (visitor: LintRule['visitors'], key: keyof LintRule
 const attachSpies = ({ visitors }: LintRule) =>
 	(['Resource', 'Message', 'Pattern'] as const).forEach(key => attachSpiesToVisitor(visitors, key))
 
-export const doLint = (rule: LintRule, resources: Resource[]) => {
+const env: EnvironmentFunctions = {
+	$fs: vi.fn() as any,
+	$import: vi.fn(),
+}
+
+export const lint = (rule: LintRule, resources: Resource[]) => {
 	attachSpies(rule)
 
 	const config = {
@@ -39,7 +44,7 @@ export const doLint = (rule: LintRule, resources: Resource[]) => {
 		lint: { rules: [rule] },
 	} satisfies Config;
 
-	return lint(config, env);
+	return lintImplementation(config, env);
 };
 
 export const createResource = (language: string, ...messages: Message[]) =>
@@ -61,8 +66,3 @@ export const createMessage = (id: string, pattern: string) =>
 		elements: [{ type: "Text", value: pattern }],
 	},
 } satisfies Message);
-
-const env: EnvironmentFunctions = {
-	$fs: vi.fn() as any,
-	$import: vi.fn(),
-}

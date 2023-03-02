@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from 'vitest'
 import { additionalKeyRule } from './additionalKeyRule.js'
 import { hasLintReports, getLintReports } from '@inlang/core/lint'
-import { doLint, createResource, createMessage } from './test.utils.js'
+import { lint, createResource, createMessage } from './test.utils.js'
 
 describe('additionalKeyRule', () => {
 	describe('lint level', () => {
@@ -20,7 +20,7 @@ describe('additionalKeyRule', () => {
 		test("should not process nodes of the reference language", async () => {
 			const rule = additionalKeyRule()
 
-			const lintedResources = await doLint(rule, [createResource('en', createMessage('test', '1'))])
+			const lintedResources = await lint(rule, [createResource('en', createMessage('test', '1'))])
 
 			expect(rule.visitors.Resource).toHaveBeenCalledOnce()
 			expect(rule.visitors.Message).not.toHaveBeenCalled()
@@ -31,7 +31,7 @@ describe('additionalKeyRule', () => {
 		test("should process all nodes of the target language", async () => {
 			const rule = additionalKeyRule()
 
-			const lintedResources = await doLint(rule, [
+			const lintedResources = await lint(rule, [
 				createResource('en', createMessage('test', '1')),
 				createResource('de'),
 				createResource('fr',
@@ -49,7 +49,7 @@ describe('additionalKeyRule', () => {
 		test("should report if key is missing", async () => {
 			const rule = additionalKeyRule()
 
-			const lintedResources = await doLint(rule, [
+			const lintedResources = await lint(rule, [
 				createResource('en', createMessage('test', '1')),
 				createResource('de',
 					createMessage('test', '1'),
