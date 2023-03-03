@@ -1,6 +1,6 @@
-import { createLintRule, type Context } from '@inlang/core/lint'
+import { createLintRule, type LintRuleInitializer, type Context } from '@inlang/core/lint'
 
-export const missingKeyRule = createLintRule(
+export const missingKeyRule: LintRuleInitializer = createLintRule(
 	'inlang.missingKey',
 	'error',
 	() => {

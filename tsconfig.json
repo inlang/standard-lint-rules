@@ -1,5 +1,7 @@
 {
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*"
+  ],
   "compilerOptions": {
     // treat as "pure" ESM module
     "module": "Node16",
@@ -17,5 +19,7 @@
     "checkJs": true,
     "allowJs": true,
     "outDir": "dist",
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
   }
 }
