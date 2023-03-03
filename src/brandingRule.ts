@@ -16,6 +16,9 @@ function validateSettings(settings: Settings | undefined): asserts settings is S
 		throw new Error("'incorrect' needs to contain at least a single item")
 }
 
+// TODO: what about multiple brands?
+// Currently you can use multiple instances of the same rule
+// But once we check for duplicates in the lint ids, this would no longer be possible
 export const brandingRule = createLintRule<Settings>(
 	'inlang.brandingRule',
 	'error',
