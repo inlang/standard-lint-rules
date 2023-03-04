@@ -11,7 +11,7 @@ export default defineConfig(async () => {
 		bundle: false,
 		minify: !process.env.DEV,
 		format: 'esm',
-		platform: 'node', // TODO: use 'neutral'
+		platform: 'neutral',
 		target: 'es2020',
 		dts: true,
 		clean: true,
